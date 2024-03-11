@@ -15,7 +15,7 @@ function createCard(object) {
     const item = template.querySelector('.places__item').cloneNode(true);
     const image = item.querySelector('.card__image');
     const deleteButton = item.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', deleteCard)
+    deleteButton.addEventListener('click', deleteCard);
     const title = item.querySelector('.card__title');
     title.textContent = object.name;
     image.src = object.link;
@@ -23,8 +23,7 @@ function createCard(object) {
 }
 
 function deleteCard(object) {
-    const card = document.querySelector('.card');
-    card.remove();
+    object.target.parentNode.remove();
 }
 
 function createCards() {
