@@ -19,6 +19,7 @@ function createCard(object) {
     const title = item.querySelector('.card__title');
     title.textContent = object.name;
     image.src = object.link;
+    image.alt = object.name;
     list.append(item);
 }
 
