@@ -24,7 +24,7 @@ function createCard(object) {
 }
 
 function deleteCard(object) {
-    object.target.parentNode.remove();
+    object.target.closest('li.places__item').remove();
 }
 
 function createCards() {
