@@ -11,7 +11,7 @@ const template = document.querySelector('#card-template').content;
 const list = document.querySelector('.places__list');
 document.querySelector('.profile__add-button').addEventListener('click', createCards);
 
-function createCard(object) { 
+function createCard(object, deleteCard) { 
     const item = template.querySelector('.places__item').cloneNode(true);
     const image = item.querySelector('.card__image');
     const deleteButton = item.querySelector('.card__delete-button');
