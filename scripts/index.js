@@ -29,5 +29,5 @@ function deleteCard(object) {
 
 function createCards() {
     initialCards.forEach(function(item) {
-        list.append(createCard(item));
+        list.append(createCard(item, deleteCard));
 })};
