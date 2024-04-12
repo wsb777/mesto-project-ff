@@ -7,11 +7,13 @@
 // @todo: Функция удаления карточки
 
 // @todo: Вывести карточки на страницу
+import { initialCards } from "./cards";
+
 const template = document.querySelector('#card-template').content;
 const list = document.querySelector('.places__list');
 document.querySelector('.profile__add-button').addEventListener('click', createCards);
 
-function createCard(object, deleteCard) { 
+export function createCard(object, deleteCard) { 
     const item = template.querySelector('.places__item').cloneNode(true);
     const image = item.querySelector('.card__image');
     const deleteButton = item.querySelector('.card__delete-button');
@@ -23,11 +25,11 @@ function createCard(object, deleteCard) {
     return item;
 }
 
-function deleteCard(object) {
+export function deleteCard(object) {
     object.target.closest('li.places__item').remove();
 }
 
-function createCards() {
+export function createCards() {
     initialCards.forEach(function(item) {
         list.append(createCard(item, deleteCard));
 })};
