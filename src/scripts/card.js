@@ -7,12 +7,8 @@
 // @todo: Функция удаления карточки
 
 // @todo: Вывести карточки на страницу
-import { initialCards } from "./cards";
 
 export const template = document.querySelector('#card-template').content;
-export const list = document.querySelector('.places__list');
-const imagePopup = document.querySelector('.popup_type_image');
-// document.querySelector('.profile__add-button').addEventListener('click', createCards);
 
 export function createCard(object, deleteCard, likeCard, openImage) { 
     const item = template.querySelector('.places__item').cloneNode(true);
@@ -33,11 +29,6 @@ export function createCard(object, deleteCard, likeCard, openImage) {
 export function deleteCard(object) {
     object.target.closest('li.places__item').remove();
 }
-// перебор массива карточек
-export function createCards() {
-    initialCards.forEach(function(item) {
-        list.append(createCard(item, deleteCard, likeCard,openImage));
-})};
 
 //лайк карточки
 export function likeCard(object) {
@@ -49,14 +40,3 @@ export function likeCard(object) {
     }
 }
 
-//открытик картинки
-export function openImage(object) {
-    imagePopup.classList.add('popup_is-opened');
-    const image = document.querySelector(".popup__image");
-    const text = document.querySelector(".popup__caption");
-    const link = object.target.getAttribute("src");
-    const alt = object.target.getAttribute("alt");
-    image.src = link;
-    image.alt = alt;
-    text.textContent = alt;
-}
