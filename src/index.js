@@ -1,9 +1,41 @@
 import "./pages/index.css";
 import { initialCards } from "./scripts/cards"
 import { deleteCard, createCard, likeCard, template} from "./scripts/card.js";
-import { buttonEditProfile, buttonAddCard, formOpen, formNameCardField, linkField, formNewCard, formClose} from "./scripts/modal";
+import { openForm, closeForm} from "./scripts/modal";
 
 export const list = document.querySelector('.places__list');
+// окно редактирования профиля
+export const windowEditProfile = document.querySelector('.popup_type_edit');
+
+// окно добавления карточки
+export const windowNewPlace = document.querySelector('.popup_type_new-card');
+// все кнопки закрытия форм
+export const formCloseButton = document.querySelectorAll('.popup__close');
+// формы
+export const formNewCard = document.forms.new_place;
+export const formEditProfile = document.forms.edit_profile;
+// кнопка открытия формы карточки
+export const buttonAddCard = document.querySelector('.profile__add-button').addEventListener('click', ()=>{openForm(windowNewPlace)});
+export const formNameCardField = formNewCard.elements.place_name;
+export const linkField = formNewCard.elements.link;
+
+// кнопки с для обрабатывания закрытия и открытия форм
+const formNameField = formEditProfile.elements.name;
+const formDescriptionField = formEditProfile.elements.description;
+const profileTitle = document.querySelector('.profile__title');
+const profileDescription = document.querySelector('.profile__description');
+export const buttonEditProfile = document.querySelector('.profile__edit-button').addEventListener('click', ()=>{
+    openForm(windowEditProfile);
+    formNameField.value = profileTitle.textContent;
+    formDescriptionField.value = profileDescription.textContent;
+});
+
+// обработчик событий для кнопок закрытия
+formCloseButton.forEach(function(elem) {
+    elem.addEventListener("click", function() {
+        closeForm(elem.closest('div.popup'));
+    });
+});
 
 // перебор массива карточек
 function createCards() {
@@ -17,33 +49,43 @@ const imagePopup = document.querySelector('.popup_type_image');
 const image = document.querySelector(".popup__image");
 const text = document.querySelector(".popup__caption");
 function openImage(object) {
-    formOpen(imagePopup);
+    openForm(imagePopup);
     const link = object.target.getAttribute("src");
     const alt = object.target.getAttribute("alt");
     image.src = link;
     image.alt = alt;
     text.textContent = alt;
-    
 }
 
+//фунция для submit формы редактирования профиля
+const profileTitleText = document.querySelector('.profile__title');
+const profileTitleDecription = document.querySelector('.profile__description');
+
+function handleFormEditSubmit(evt) {
+    evt.preventDefault(); 
+
+    profileTitleText.textContent = formNameField.value;
+    profileTitleDecription.textContent = formDescriptionField.value;
+}
+
+// обработчик на кнопку формы профиля
+formEditProfile.addEventListener('submit', handleFormEditSubmit); 
+
 //фунция для submit формы карточки
+const newCardForm = document.querySelector('.popup_type_new-card');
 function addNewCard(evt) {
     evt.preventDefault();
 
-    const item = template.querySelector('.places__item').cloneNode(true);
-    const image = item.querySelector('.card__image');
-    const deleteButton = item.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', deleteCard);
-    const likeButton = item.querySelector('.card__like-button');
-    likeButton.addEventListener('click', likeCard);
-    const title = item.querySelector('.card__title');
-    title.textContent = formNameCardField.value;
-    image.src = `${linkField.value}`;
-    image.alt = `${formNameCardField.value}`;
-    formClose(document.querySelector('.popup_is-opened'));
+    const formData = {
+        link: `${linkField.value}`,
+        name: `${formNameCardField.value}`
+    }
+    const newCard = createCard(formData, deleteCard, likeCard, openImage);
     formNameCardField.value = '';
     linkField.value = '';
-    return list.prepend(item);
+    closeForm(newCardForm);
+    return list.prepend(newCard);
 }
+
 
 formNewCard.addEventListener('submit', addNewCard); 
