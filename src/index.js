@@ -10,7 +10,7 @@ export const windowEditProfile = document.querySelector('.popup_type_edit');
 // окно добавления карточки
 export const windowNewPlace = document.querySelector('.popup_type_new-card');
 // все кнопки закрытия форм
-export const formCloseButton = document.querySelectorAll('.popup__close');
+export const formCloseButtons = document.querySelectorAll('.popup__close');
 // формы
 export const formNewCard = document.forms.new_place;
 export const formEditProfile = document.forms.edit_profile;
@@ -31,7 +31,7 @@ export const buttonEditProfile = document.querySelector('.profile__edit-button')
 });
 
 // обработчик событий для кнопок закрытия
-formCloseButton.forEach(function(elem) {
+formCloseButtons.forEach(function(elem) {
     elem.addEventListener("click", function() {
         closeForm(elem.closest('div.popup'));
     });
@@ -61,11 +61,13 @@ function openImage(object) {
 const profileTitleText = document.querySelector('.profile__title');
 const profileTitleDecription = document.querySelector('.profile__description');
 
+const formEditProfileWindow = document.querySelector('.popup_type_edit')
 function handleFormEditSubmit(evt) {
     evt.preventDefault(); 
 
     profileTitleText.textContent = formNameField.value;
     profileTitleDecription.textContent = formDescriptionField.value;
+    closeForm(formEditProfileWindow);
 }
 
 // обработчик на кнопку формы профиля
