@@ -1,0 +1,13 @@
+.form__input_type_error {
+    border:none;
+    border-bottom: 1px solid #F00;
+  }
+  
+.form__input-error {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.52px;
+    text-align: left;
+    color: #FF0000;
+  }

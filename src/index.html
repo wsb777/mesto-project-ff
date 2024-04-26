@@ -37,9 +37,15 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="edit_profile" novalidate>
-        <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
-        <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
-        <button type="submit" class="button popup__button">Сохранить</button>
+        <label class="form__field">
+          <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required minlength="2" maxlength="40" pattern="^[А-яёA-z\s\-]+$" data-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+          <span class="form__input-error"> </span>
+        </label>
+        <label class="form__field">
+          <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required minlength="2" maxlength="200" pattern="^[А-яёA-z\s\-]+$" data-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+          <span class="form__input-error"></span>
+        </label>
+          <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
   </div>
@@ -48,8 +54,14 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Новое место</h3>
       <form class="popup__form" name="new_place" novalidate>
-        <input type="text" name="place_name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
-        <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+        <label class="form__field">
+          <input type="text" name="place_name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
+          <span class="form__input-error"></span>
+        </label>
+        <label class="form__field">
+          <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+          <span class="form__input-error"> </span>
+        </label>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -70,7 +82,10 @@
     <div class="card__description">
       <h2 class="card__title">
       </h2>
-      <button type="button" class="card__like-button"></button>
+      <div class="card__like-column">
+        <button type="button" class="card__like-button"></button>
+        <span class="like_count"></span>
+      </div>
     </div>
   </li>
 </template>
