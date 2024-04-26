@@ -31,7 +31,6 @@ export const getCards = (cards) => {
         return Promise.reject(`Ошибка: ${res.status}`);
         }).
         then(res => cards = res);
-        
     }
     
 export const editProfileData = (name, about) => {
@@ -42,7 +41,12 @@ export const editProfileData = (name, about) => {
             name,
             about
           })
-        })
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+            })
     }
 
 export const addNewCardOnServer = (name, link) => {
@@ -52,15 +56,63 @@ export const addNewCardOnServer = (name, link) => {
         body: JSON.stringify({
             name,
             link
-            })
+            }).then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка: ${res.status}`);
+                })
         })
     }
 
 export const deleteCardOnServer = (id) => {
-    return fetch(`${config.baseUrl}/cards/cardId/${id}`, {
+    return fetch(`${config.baseUrl}/cards/${id}`, {
         method: 'DELETE',
         headers: config.headers
-        })
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+            })
     }
 
+export const likeCardOnServer = (id) => {
+    return fetch(`${config.baseUrl}/cards/likes/${id}`, {
+        method: 'PUT',
+        headers: config.headers
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+            })
+    }
+
+export const deleteLike = (id) => {
+    return fetch(`${config.baseUrl}/cards/likes/${id}`, {
+        method: 'DELETE',
+        headers: config.headers
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+            })
+    }
+
+export const editAvatar = (avatar) => {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify({
+            avatar:avatar,
+          })
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+}
     

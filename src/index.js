@@ -3,8 +3,7 @@ import { initialCards } from "./scripts/cards"
 import { deleteCard, createCard, likeCard, template} from "./scripts/card.js";
 import { openForm, closeForm} from "./scripts/modal";
 import { isValid, enableValidation, clearValidation, validationConfig} from "./scripts/validation";
-import { getUserData, getCards, editProfileData, addNewCardOnServer, deleteCardOnServer} from "./scripts/api";
-
+import { getUserData, getCards, editProfileData, addNewCardOnServer, deleteCardOnServer, deleteLike, likeCardOnServer, editAvatar} from "./scripts/api";
 
 // массив карточек
 export const list = document.querySelector('.places__list');
@@ -13,23 +12,34 @@ export const windowEditProfile = document.querySelector('.popup_type_edit');
 
 // окно добавления карточки
 export const windowNewPlace = document.querySelector('.popup_type_new-card');
+
+// окно аватара
+export const windowAvatar = document.querySelector('.popup_type_avatar');
 // все кнопки закрытия форм
 export const formCloseButtons = document.querySelectorAll('.popup__close');
 // формы
 export const formNewCard = document.forms.new_place;
 export const formEditProfile = document.forms.edit_profile;
+export const formAvatar = document.forms.new_avatar;
+// работа с аватаром
+const formAvatarField = formAvatar.elements.link
+const buttonUpdateAvatar = document.querySelector('.profile__image').addEventListener('click', () => {openForm(windowAvatar)});
+function addNewAvatar(evt) {
+    evt.preventDefault();
+    const url = formAvatarField.value;
+    avatar.style = "background-image: url(" + url + ");";
+    editAvatar(url);
+    closeForm(windowAvatar);
+}
+formAvatar.addEventListener('submit', addNewAvatar);
 // кнопка открытия формы карточки
 export const buttonAddCard = document.querySelector('.profile__add-button').addEventListener('click', ()=>{openForm(windowNewPlace)});
 export const formNameCardField = formNewCard.elements.place_name;
-// formNameCardField.addEventListener('input', () => isValid(formNameCardField));
 export const linkField = formNewCard.elements.link;
-// linkField.addEventListener('input', () => isValid(linkField));
 
 // кнопки с для обрабатывания закрытия и открытия форм
 const formNameField = formEditProfile.elements.name;
-// formNameField.addEventListener('input', () => isValid(formNameField));
 const formDescriptionField = formEditProfile.elements.description;
-// formDescriptionField.addEventListener('input', () => isValid(formDescriptionField));
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 // обработчик на кнопку профиля
@@ -71,15 +81,18 @@ const profileTitleText = document.querySelector('.profile__title');
 const profileTitleDecription = document.querySelector('.profile__description');
 // функция заполнения данных пользователя
 let ownerId
+const avatar = document.querySelector('.profile__image')
 function fillProfile(user) {
     profileTitleText.textContent = user.name;
     profileTitleDecription.textContent = user.about;
+    
+    avatar.style = "background-image: url(" + user.avatar + ");";
     ownerId = user._id;
 }
 // функция создания карточек когорты
 function addCards(cardsList) {
     cardsList.forEach(function(card) {
-        const newCard = createCard(card, deleteCard, likeCard, openImage, ownerId, deleteCardOnServer);
+        const newCard = createCard(card, deleteCard, likeCard, openImage, ownerId, deleteCardOnServer, likeCardOnServer, deleteLike);
         return list.prepend(newCard);
     });
 }
@@ -111,7 +124,7 @@ function addNewCard(evt) {
     const link = formData.link;
     const name = formData.name;
     addNewCardOnServer(name ,link)
-    const newCard = createCard(formData, deleteCard, likeCard, openImage, ownerId, deleteCardOnServer);
+    const newCard = createCard(formData, deleteCard, likeCard, openImage, ownerId, deleteCardOnServer, likeCardOnServer, deleteLike);
     formNameCardField.value = '';
     linkField.value = '';
     closeForm(newCardForm);
@@ -121,10 +134,11 @@ function addNewCard(evt) {
 formNewCard.addEventListener('submit', addNewCard);
 
 
+const profileAvatar = document.querySelector('.profile__image');
 
-
-
-
+function addAvatar(img) {
+    profileAvatar.style.backgroundImage = `${img}`;
+}
 
 // включение валидации
 enableValidation(validationConfig);
@@ -133,4 +147,5 @@ Promise.all([getUserData(), getCards()])
     .then(([myProfile, list]) => {
         fillProfile(myProfile);
         addCards(list);
+        // addAvatar(img)
     })
