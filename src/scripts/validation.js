@@ -8,16 +8,22 @@ export const validationConfig = {
 };
 
 export function enableValidation (validationConfig) {
-  const inputList = document.querySelectorAll(validationConfig.inputSelector);
-  inputList.forEach((input) => {
-    input.addEventListener('input', () => isValid(input))
+  const formtList = document.querySelectorAll(validationConfig.formSelector);
+  formtList.forEach((form) => {
+    const inputList = form.querySelectorAll(validationConfig.inputSelector);
+      inputList.forEach((input) => {
+        input.addEventListener('input', () => isValid(input))
+      })
   })
 };
 
 export function clearValidation (validationConfig) {
-  const inputList = document.querySelectorAll(validationConfig.inputSelector);
-  inputList.forEach((input) => {
-    input.removeEventListener('input', () => isValid(input))
+  const formtList = document.querySelectorAll(validationConfig.formSelector);
+  formtList.forEach((form) => {
+    const inputList = form.querySelectorAll(validationConfig.inputSelector);
+      inputList.forEach((input) => {
+        input.removeEventListener('input', () => isValid(input))
+      })
   })
 };
 

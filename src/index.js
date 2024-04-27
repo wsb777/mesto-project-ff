@@ -24,11 +24,12 @@ export const formAvatar = document.forms.new_avatar;
 // работа с аватаром
 const formAvatarField = formAvatar.elements.link
 const buttonUpdateAvatar = document.querySelector('.profile__image').addEventListener('click', () => {openForm(windowAvatar)});
+const avatarEditWindow = document.querySelector('.popup_type_avatar');
+
 function addNewAvatar(evt) {
     evt.preventDefault();
     const url = formAvatarField.value;
-    avatar.style = "background-image: url(" + url + ");";
-    editAvatar(url);
+    editAvatar(url).then(() => {avatarEditWindow.querySelector('.popup__button').textContent = "Сохранение..."; avatar.style = "background-image: url(" + url + ");";}).catch(err => console.log(`Ошибка:${err}`)).finally(avatarEditWindow.querySelector('.popup__button').textContent = "Сохранить")
     closeForm(windowAvatar);
 }
 formAvatar.addEventListener('submit', addNewAvatar);
@@ -100,12 +101,12 @@ function addCards(cardsList) {
 const formEditProfileWindow = document.querySelector('.popup_type_edit')
 function handleFormEditSubmit(evt) {
     evt.preventDefault(); 
-
+    
     const profileName = formNameField.value;
     const description = formDescriptionField.value;
     profileTitleText.textContent = formNameField.value;
     profileTitleDecription.textContent = formDescriptionField.value;
-    editProfileData(profileName, description);
+    editProfileData(profileName, description).then(formEditProfileWindow.querySelector('.popup__button').textContent = "Сохранение...").catch(err => console.log(`Ошибка:${err}`)).finally(() => {formEditProfileWindow.querySelector('.popup__button').textContent = "Сохранить"; formNameField.value = '';formDescriptionField.value=""})
     closeForm(formEditProfileWindow);
 }
 
@@ -114,31 +115,21 @@ formEditProfile.addEventListener('submit', handleFormEditSubmit);
 
 //фунция для submit формы карточки
 const newCardForm = document.querySelector('.popup_type_new-card');
+const buttonTextCardForm = newCardForm.querySelector('.popup__button').textContent;
 function addNewCard(evt) {
     evt.preventDefault();
-
     const formData = {
         link: `${linkField.value}`,
         name: `${formNameCardField.value}`
     }
     const link = formData.link;
     const name = formData.name;
-    addNewCardOnServer(name ,link)
-    const newCard = createCard(formData, deleteCard, likeCard, openImage, ownerId, deleteCardOnServer, likeCardOnServer, deleteLike);
-    formNameCardField.value = '';
-    linkField.value = '';
+    addNewCardOnServer(name ,link).then((res) => {const newCard = createCard(res, deleteCard, likeCard, openImage, ownerId, deleteCardOnServer, likeCardOnServer, deleteLike); list.prepend(newCard); newCardForm.querySelector('.popup__button').textContent = "Сохранение..."}).finally(() => {newCardForm.querySelector('.popup__button').textContent = "Сохранить"; formNameCardField.value = '';linkField.value = '';})
     closeForm(newCardForm);
-    return list.prepend(newCard);
+    return ;
 }
 
 formNewCard.addEventListener('submit', addNewCard);
-
-
-const profileAvatar = document.querySelector('.profile__image');
-
-function addAvatar(img) {
-    profileAvatar.style.backgroundImage = `${img}`;
-}
 
 // включение валидации
 enableValidation(validationConfig);
@@ -147,5 +138,4 @@ Promise.all([getUserData(), getCards()])
     .then(([myProfile, list]) => {
         fillProfile(myProfile);
         addCards(list);
-        // addAvatar(img)
     })
