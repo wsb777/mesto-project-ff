@@ -27,8 +27,6 @@ export function createCard(
   if (ownerId !== object.owner._id) {
     deleteButton.remove();
   }
-  if (object._id !== null) {
-  }
   const likeButton = item.querySelector(".card__like-button");
   const myLikes = object.likes.some((like) => like._id === ownerId);
   if (myLikes) {
