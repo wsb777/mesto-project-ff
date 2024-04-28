@@ -204,8 +204,10 @@ formNewCard.addEventListener("submit", addNewCard);
 enableValidation(validationConfig);
 
 // прогрузка данных
-Promise.all([getUserData(), getCards()]).then(([myProfile, list]) => {
-  fillProfile(myProfile);
-  addCards(list);
-}).catch((err) => console.log(`Ошибка:${err}`));
+Promise.all([getUserData(), getCards()])
+  .then(([myProfile, list]) => {
+    fillProfile(myProfile);
+    addCards(list);
+  })
+  .catch((err) => console.log(`Ошибка:${err}`));
 // прошу прощения за отсутвие prettier в прошлых итерациях

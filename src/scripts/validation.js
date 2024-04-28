@@ -97,4 +97,4 @@ export function clearValidation(formElement, validationConfig) {
     hideInputError(inputElement, validationConfig)
   );
   toggleButtonState(inputList, buttonElement);
-  }
+}
