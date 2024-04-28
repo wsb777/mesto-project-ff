@@ -52,7 +52,7 @@ export function createCard(
 //удаление карточки
 export function deleteCard(id, deleteCardOnServer) {
   deleteCardOnServer(id)
-    .then(document.getElementById(`${id}`).remove())
+    .then(() => document.getElementById(`${id}`).remove())
     .catch((err) => console.log(`Ошибка:${err}`));
 }
 

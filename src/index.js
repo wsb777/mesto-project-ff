@@ -73,7 +73,7 @@ function addNewAvatar(evt) {
       closeModal(windowAvatar);
     })
     .catch((err) => console.log(`Ошибка:${err}`))
-    .finally((submitAvatarForm.textContent = "Сохранить"));
+    .finally(() => (submitAvatarForm.textContent = "Сохранить"));
 }
 formAvatar.addEventListener("submit", addNewAvatar);
 // кнопка открытия формы карточки
@@ -158,10 +158,7 @@ function handleFormEditSubmit(evt) {
     .catch((err) => console.log(`Ошибка:${err}`))
     .finally(() => {
       submitEditForm.textContent = "Сохранить";
-      formNameField.value = "";
-      formDescriptionField.value = "";
     });
-  closeModal(windowEditProfile);
 }
 
 // обработчик на кнопку формы профиля
@@ -191,11 +188,12 @@ function addNewCard(evt) {
       );
       list.prepend(newCard);
       closeModal(newCardForm);
-    })
-    .finally(() => {
-      submitCardForm.textContent = "Сохранить";
       formNameCardField.value = "";
       linkField.value = "";
+    })
+    .catch((err) => console.log(`Ошибка:${err}`))
+    .finally(() => {
+      submitCardForm.textContent = "Сохранить";
     });
   return;
 }
@@ -209,5 +207,5 @@ enableValidation(validationConfig);
 Promise.all([getUserData(), getCards()]).then(([myProfile, list]) => {
   fillProfile(myProfile);
   addCards(list);
-});
+}).catch((err) => console.log(`Ошибка:${err}`));
 // прошу прощения за отсутвие prettier в прошлых итерациях
