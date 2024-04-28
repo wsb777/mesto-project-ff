@@ -10,9 +10,6 @@ export const validationConfig = {
   sumbitFormInactive: "form__submit_inactive",
 };
 
-// Функция isValid теперь принимает formElement и inputElement,
-// а не берёт их из внешней области видимости
-
 const isValid = (inputElement, validationConfig) => {
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.error);
@@ -66,17 +63,14 @@ const toggleButtonState = (inputList, buttonElement) => {
     buttonElement.disabled = true;
     buttonElement.classList.add(validationConfig.sumbitFormInactive);
   } else {
-    // иначе сделай кнопку активной
     buttonElement.disabled = false;
     buttonElement.classList.remove(validationConfig.sumbitFormInactive);
   }
 };
 const setEventListeners = (formElement, validationConfig) => {
-  // Найдём все поля формы и сделаем из них массив
   const inputList = Array.from(
     formElement.querySelectorAll(validationConfig.inputSelector)
   );
-  // Найдём в текущей форме кнопку отправки
   const buttonElement = formElement.querySelector(
     validationConfig.submitButtonSelector
   );
@@ -85,8 +79,6 @@ const setEventListeners = (formElement, validationConfig) => {
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", () => {
       isValid(inputElement, validationConfig);
-
-      // Вызовем toggleButtonState и передадим ей массив полей и кнопку
       toggleButtonState(inputList, buttonElement);
     });
   });
