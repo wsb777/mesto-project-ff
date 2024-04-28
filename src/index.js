@@ -1,9 +1,8 @@
 import "./pages/index.css";
 import { initialCards } from "./scripts/cards";
-import { deleteCard, createCard, likeCard, template } from "./scripts/card.js";
+import { deleteCard, createCard, likeCard } from "./scripts/card.js";
 import { openModal, closeModal } from "./scripts/modal";
 import {
-  isValid,
   enableValidation,
   clearValidation,
   validationConfig,
@@ -204,8 +203,7 @@ function addNewCard(evt) {
 formNewCard.addEventListener("submit", addNewCard);
 
 //включение валидации
-
-// clearValidation(newCardForm, validationConfig);
+enableValidation(validationConfig);
 
 // прогрузка данных
 Promise.all([getUserData(), getCards()]).then(([myProfile, list]) => {
