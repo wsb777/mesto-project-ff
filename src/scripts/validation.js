@@ -83,7 +83,9 @@ const setEventListeners = (formElement, validationConfig) => {
     });
   });
 };
-
+// я так особо и не понял, думал эта функция очищает валидацию, чтобы можно было отправить что угодно(но по заданию она делает кнопку неактивной)
+// только что я сделал этот блок по теории яндекса, но не возможно убрать ошибки после вызова функции enableValidation потому что он вешает обработчик, который сработывает при нажатии,
+// то есть как бы я не хотел, а обработчик всегда будет отрабатывать последним, то есть либо его убирать, либо никак
 export function clearValidation(formElement, validationConfig) {
   const inputList = Array.from(
     formElement.querySelectorAll(validationConfig.inputSelector)
@@ -94,5 +96,5 @@ export function clearValidation(formElement, validationConfig) {
   inputList.forEach((inputElement) =>
     hideInputError(inputElement, validationConfig)
   );
-  buttonElement.disabled = false;
+  buttonElement.disabled = true;
 }
