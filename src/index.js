@@ -90,7 +90,7 @@ const buttonEditProfile = document
     openModal(windowEditProfile);
     formNameField.value = profileTitle.textContent;
     formDescriptionField.value = profileDescription.textContent;
-    clearValidation();
+    clearValidation(windowEditProfile, validationConfig);
   });
 
 // обработчик событий для кнопок закрытия
