@@ -90,6 +90,7 @@ const buttonEditProfile = document
     openModal(windowEditProfile);
     formNameField.value = profileTitle.textContent;
     formDescriptionField.value = profileDescription.textContent;
+    clearValidation();
   });
 
 // обработчик событий для кнопок закрытия
@@ -190,6 +191,7 @@ function addNewCard(evt) {
       closeModal(newCardForm);
       formNameCardField.value = "";
       linkField.value = "";
+      submitCardForm.disabled = true ;
     })
     .catch((err) => console.log(`Ошибка:${err}`))
     .finally(() => {
